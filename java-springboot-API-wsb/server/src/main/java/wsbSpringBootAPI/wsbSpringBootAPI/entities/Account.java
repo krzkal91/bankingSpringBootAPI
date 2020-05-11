@@ -1,9 +1,8 @@
-package datahill.com.bankingAPITest.entities;
+package wsbSpringBootAPI.wsbSpringBootAPI.entities;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import datahill.com.bankingAPITest.repository.CustomerRepository;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -11,7 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Objects;
-import java.util.Set;
 
 @Document(collection = "accounts")
 public class Account {
@@ -27,8 +25,7 @@ public class Account {
 
     @DBRef(lazy = true)
     @Field("customerSet")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
+    @JsonBackReference
     private Customer customer;
 
     @Field("accountType")

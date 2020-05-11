@@ -1,4 +1,4 @@
-package datahill.com.bankingAPITest.service;
+package wsbSpringBootAPI.wsbSpringBootAPI.service;
 
 
 public class Transfer {

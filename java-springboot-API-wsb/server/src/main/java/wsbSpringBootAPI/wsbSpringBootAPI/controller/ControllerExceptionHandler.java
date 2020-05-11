@@ -1,10 +1,10 @@
-package datahill.com.bankingAPITest.controller;
+package wsbSpringBootAPI.wsbSpringBootAPI.controller;
 
-import datahill.com.bankingAPITest.exception.ResourceNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import wsbSpringBootAPI.wsbSpringBootAPI.exception.ResourceNotFound;
 
 import java.util.NoSuchElementException;
 

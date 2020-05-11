@@ -1,34 +1,24 @@
-package datahill.com.bankingAPITest.integration;
+package wsbSpringBootAPI.wsbSpringBootAPI.integration;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import datahill.com.bankingAPITest.controller.CustomerController;
-import datahill.com.bankingAPITest.entities.Account;
-import datahill.com.bankingAPITest.entities.Customer;
-import datahill.com.bankingAPITest.repository.AccountsRepository;
-import datahill.com.bankingAPITest.repository.CustomerRepository;
-import datahill.com.bankingAPITest.service.Transfer;
+
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Account;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Customer;
+import wsbSpringBootAPI.wsbSpringBootAPI.repository.AccountsRepository;
+import wsbSpringBootAPI.wsbSpringBootAPI.repository.CustomerRepository;
+import wsbSpringBootAPI.wsbSpringBootAPI.service.Transfer;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)

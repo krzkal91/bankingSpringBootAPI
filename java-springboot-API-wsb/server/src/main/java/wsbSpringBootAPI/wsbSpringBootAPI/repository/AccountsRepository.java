@@ -1,8 +1,8 @@
-package datahill.com.bankingAPITest.repository;
+package wsbSpringBootAPI.wsbSpringBootAPI.repository;
 
-import datahill.com.bankingAPITest.entities.Account;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Account;
 
 import java.util.Optional;
 

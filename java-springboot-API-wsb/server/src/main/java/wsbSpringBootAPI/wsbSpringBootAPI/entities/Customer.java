@@ -1,7 +1,7 @@
-package datahill.com.bankingAPITest.entities;
+package wsbSpringBootAPI.wsbSpringBootAPI.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -14,8 +14,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 @Document(collection = "customers")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Customer {
 
     @Id
@@ -26,6 +24,7 @@ public class Customer {
 
     @DBRef(lazy = true)
     @Field("accountSet")
+    @JsonManagedReference
     private Set<Account> accountSet;
 
     @Field("lastname")

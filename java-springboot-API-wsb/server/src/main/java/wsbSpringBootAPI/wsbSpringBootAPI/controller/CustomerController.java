@@ -1,13 +1,13 @@
-package datahill.com.bankingAPITest.controller;
+package wsbSpringBootAPI.wsbSpringBootAPI.controller;
 
-import datahill.com.bankingAPITest.entities.Account;
-import datahill.com.bankingAPITest.entities.Customer;
-import datahill.com.bankingAPITest.exception.ResourceNotFound;
-import datahill.com.bankingAPITest.service.BankService;
-import datahill.com.bankingAPITest.service.Transfer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Account;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Customer;
+import wsbSpringBootAPI.wsbSpringBootAPI.service.BankService;
+import wsbSpringBootAPI.wsbSpringBootAPI.service.Transfer;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class CustomerController {
     }
 
     @GetMapping("/searchByEmail")
-    public Customer searchByEmail(@RequestParam (name ="email") String email) {
+    public Customer searchByEmail(@RequestParam(name ="email") String email) {
         Customer customer = bankService.searchByEmail(email);
         return customer;
     }

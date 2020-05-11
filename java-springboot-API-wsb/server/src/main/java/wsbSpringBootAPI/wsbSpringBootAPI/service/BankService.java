@@ -1,15 +1,19 @@
-package datahill.com.bankingAPITest.service;
+package wsbSpringBootAPI.wsbSpringBootAPI.service;
 
-import datahill.com.bankingAPITest.entities.Account;
-import datahill.com.bankingAPITest.entities.Customer;
-import datahill.com.bankingAPITest.exception.ResourceNotFound;
-import datahill.com.bankingAPITest.exception.TransferException;
-import datahill.com.bankingAPITest.repository.AccountsRepository;
-import datahill.com.bankingAPITest.repository.CustomerRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Account;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Customer;
+import wsbSpringBootAPI.wsbSpringBootAPI.exception.ResourceNotFound;
+import wsbSpringBootAPI.wsbSpringBootAPI.exception.TransferException;
+import wsbSpringBootAPI.wsbSpringBootAPI.repository.AccountsRepository;
+import wsbSpringBootAPI.wsbSpringBootAPI.repository.CustomerRepository;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class BankService {

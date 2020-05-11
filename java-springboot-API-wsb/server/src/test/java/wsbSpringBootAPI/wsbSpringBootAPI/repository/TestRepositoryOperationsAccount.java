@@ -1,16 +1,17 @@
-package datahill.com.bankingAPITest.repository;
+package wsbSpringBootAPI.wsbSpringBootAPI.repository;
 
-import datahill.com.bankingAPITest.entities.Account;
-import datahill.com.bankingAPITest.entities.Customer;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
-
-import static org.junit.jupiter.api.Assertions.*;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Account;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Customer;
 
 import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DataMongoTest

@@ -1,4 +1,4 @@
-package datahill.com.bankingAPITest.exception;
+package wsbSpringBootAPI.wsbSpringBootAPI.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,12 +1,5 @@
-package datahill.com.bankingAPITest.controller;
+package wsbSpringBootAPI.wsbSpringBootAPI.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import datahill.com.bankingAPITest.entities.Account;
-import datahill.com.bankingAPITest.entities.Customer;
-import datahill.com.bankingAPITest.exception.ResourceNotFound;
-import datahill.com.bankingAPITest.service.BankService;
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -20,10 +13,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Account;
+import wsbSpringBootAPI.wsbSpringBootAPI.entities.Customer;
+import wsbSpringBootAPI.wsbSpringBootAPI.exception.ResourceNotFound;
+import wsbSpringBootAPI.wsbSpringBootAPI.service.BankService;
 
 import java.util.*;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CustomerController.class)
