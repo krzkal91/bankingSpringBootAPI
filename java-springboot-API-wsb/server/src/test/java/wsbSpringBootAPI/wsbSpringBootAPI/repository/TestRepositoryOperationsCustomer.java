@@ -22,6 +22,7 @@ public class TestRepositoryOperationsCustomer {
     @Autowired
     private CustomerRepository customerRepository;
 
+
     private Customer c;
     private Account a;
     private Date date;

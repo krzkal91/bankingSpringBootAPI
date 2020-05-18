@@ -65,7 +65,6 @@ public class BankAPIApplicationIntegrationTests {
         account.setBalance(2234.04);
         account.setAccountType("CURRENT");
         account.setAccountNumber(23456);
-        account.setCustomer(null);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Content-Type", "application/json");
@@ -117,13 +116,12 @@ public class BankAPIApplicationIntegrationTests {
         account.setBalance(2234.04);
         account.setAccountType("CURRENT");
         account.setAccountNumber(1234);
-        account.setCustomer(null);
+
 
         Account account1 = new Account();
         account1.setBalance(2234.04);
         account1.setAccountType("CURRENT");
         account1.setAccountNumber(23456);
-        account1.setCustomer(null);
 
         String id1 = accountsRepository.save(account).getId();
         String id2 = accountsRepository.save(account1).getId();
@@ -133,7 +131,7 @@ public class BankAPIApplicationIntegrationTests {
         transfer.setToAccount(23456);
         transfer.setAmount(200.00);
 
-        String path = "/customers/accounts/transferFund";
+        String path = "/customers/accounts/transferfunds";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Content-Type", "application/json");
 

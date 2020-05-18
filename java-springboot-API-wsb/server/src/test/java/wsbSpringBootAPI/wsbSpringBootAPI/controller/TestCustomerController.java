@@ -17,6 +17,8 @@ import wsbSpringBootAPI.wsbSpringBootAPI.entities.Account;
 import wsbSpringBootAPI.wsbSpringBootAPI.entities.Customer;
 import wsbSpringBootAPI.wsbSpringBootAPI.exception.ResourceNotFound;
 import wsbSpringBootAPI.wsbSpringBootAPI.service.BankService;
+import wsbSpringBootAPI.wsbSpringBootAPI.viewObjects.FullAccountInfo;
+import wsbSpringBootAPI.wsbSpringBootAPI.viewObjects.ViewCustomer;
 
 import java.util.*;
 
@@ -135,6 +137,57 @@ public class TestCustomerController {
         exception.ifPresent( (e) -> Assertions.assertTrue((e instanceof ResourceNotFound)));
 
 
+    }
+
+    @Test
+    @Order(4)
+    void test_getFullAccountInfo() throws Exception {
+        RequestBuilder requestBuilder;
+
+        Account account = new Account();
+        account.setAccountNumber(123456);
+        account.setAccountType("CURRENT");
+        account.setBalance(123948.09);
+        account.setId("sjdhsu88888");
+
+        Customer customer = new Customer();
+        customer.setFirstname("Krzysztof");
+        customer.setId("jshdsgd73645");
+        customer.setLastname("Vadhran");
+        customer.setEmail("krzysztof.vadhran@mockito.com");
+        Set<Account> accountSet = new HashSet<Account>();
+        accountSet.add(account);
+        customer.setAccountSet(accountSet);
+        ViewCustomer viewCustomer = new ViewCustomer(customer);
+
+        Customer customer1 = new Customer();
+        customer1.setId("sjkdsddhg637");
+        customer1.setFirstname("Mariusz");
+        customer1.setLastname("Szczygiel");
+        customer1.setEmail("mariusz.szcz@mockito.com");
+        accountSet = new HashSet<Account>();
+        accountSet.add(account);
+        customer1.setAccountSet(accountSet);
+        ViewCustomer viewCustomer1 = new ViewCustomer(customer1);
+
+        FullAccountInfo fullAccountInfo = new FullAccountInfo();
+        fullAccountInfo.setAccount(account);
+        Set<ViewCustomer> customerset = new HashSet<ViewCustomer>();
+        customerset.add(viewCustomer);
+        customerset.add(viewCustomer1);
+        fullAccountInfo.setCustomers(customerset);
+
+        Mockito.when(bankService.getFullAccountInfo("sjdhsu88888")).thenReturn(fullAccountInfo);
+
+        requestBuilder= MockMvcRequestBuilders
+                .get("/customers/accounts/sjdhsu88888/fullinfo")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult mvcResult = mockMvc.perform(requestBuilder)
+                .andExpect(status().isAccepted())
+                .andReturn();
+
+        System.out.println(mvcResult.toString());
     }
 
 

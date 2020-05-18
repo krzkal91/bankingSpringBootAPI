@@ -1,6 +1,4 @@
 package wsbSpringBootAPI.wsbSpringBootAPI.service;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wsbSpringBootAPI.wsbSpringBootAPI.entities.Account;
@@ -9,11 +7,9 @@ import wsbSpringBootAPI.wsbSpringBootAPI.exception.ResourceNotFound;
 import wsbSpringBootAPI.wsbSpringBootAPI.exception.TransferException;
 import wsbSpringBootAPI.wsbSpringBootAPI.repository.AccountsRepository;
 import wsbSpringBootAPI.wsbSpringBootAPI.repository.CustomerRepository;
-
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Set;
+import wsbSpringBootAPI.wsbSpringBootAPI.viewObjects.FullAccountInfo;
+import wsbSpringBootAPI.wsbSpringBootAPI.viewObjects.ViewCustomer;
+import java.util.*;
 
 @Service
 public class BankService {
@@ -24,7 +20,14 @@ public class BankService {
     private AccountsRepository accountsRepository;
 
     public Customer createCustomer(Customer customer) {
-        customer.getAccountSet().clear();
+        if (customer.getAccountSet() != null || customer.getAccountSet().size() > 0) {
+            Set<Account> accountset = new HashSet<Account>();
+            for (Account a : customer.getAccountSet()) {
+                Account accountSaved = accountsRepository.save(a);
+                accountset.add(accountSaved);
+            }
+            customer.setAccountSet(accountset);
+        }
         Customer saved = customerRepository.save(customer);
         return saved;
     }
@@ -51,20 +54,22 @@ public class BankService {
             Customer customer = customers.get();
 
             Set<Account> originalSet = customer.getAccountSet();
-            if (originalSet != null && originalSet.size() > 0)
-                for (Account a : originalSet) {
-                    a.setCustomer(null);
-                    accountsRepository.save(a);
+            Set<Account> savedSet = new HashSet<>();
+            if (customerToUpdate.getAccountSet() != null && customerToUpdate.getAccountSet().size()> 0) {
+                for (Account a : customerToUpdate.getAccountSet()) {
+                    Account saved = accountsRepository.save(a);
+                    savedSet.add(saved);
                 }
+            }
+            if (originalSet != null && originalSet.size() > 0) {
+                savedSet.addAll(originalSet);
+                customerToUpdate.setAccountSet(savedSet);
+            }
+
             customer.setFirstname(customerToUpdate.getFirstname());
             customer.setLastname(customerToUpdate.getLastname());
             customer.setEmail(customerToUpdate.getEmail());
-            for (Account a : customerToUpdate.getAccountSet()) {
-                a.setCustomer(customer);
-                Account acc = accountsRepository.save(a);
-                customer.getAccountSet().add(acc);
-            }
-
+            customer.setAccountSet(savedSet);
             return customerRepository.save(customer);
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResourceNotFound("Customer with a given ID does not exist: " + id);
@@ -75,10 +80,6 @@ public class BankService {
         try {
             Optional<Customer> customers = customerRepository.findById(id);
             Customer customer = customers.get();
-            for (Account a : customer.getAccountSet()) {
-                a.setCustomer(null);
-                accountsRepository.save(a);
-            }
             customerRepository.delete(customer);
             return customer;
         } catch (NoSuchElementException noSuchElementException) {
@@ -112,16 +113,6 @@ public class BankService {
 
     public Account createAccount(Account account) {
         Account accountSaved = accountsRepository.save(account);
-        if (account.getCustomer() != null) {
-            Customer customer = account.getCustomer();
-            if (customerRepository.existsByEmail(customer.getEmail())) {
-                Customer custFromBefore = customerRepository.findById(customer.getId()).get();
-                Set<Account> originalSet = custFromBefore.getAccountSet();
-                customer.getAccountSet().addAll(originalSet);
-            }
-            customer.getAccountSet().add(accountSaved);
-            customerRepository.save(customer);
-        }
         return accountSaved;
     }
 
@@ -129,14 +120,9 @@ public class BankService {
         try {
             Optional<Account> accounts = accountsRepository.findById(id);
             Account account = accounts.get();
+            account.setAccountNumber(accountToUpdate.getAccountNumber());
             account.setAccountType(accountToUpdate.getAccountType());
             account.setBalance(accountToUpdate.getBalance());
-            account.setCustomer(accountToUpdate.getCustomer());
-            if (accountToUpdate.getCustomer() != null) {
-                Customer customer = customerRepository.findById(accountToUpdate.getCustomer().getId()).get();
-                customer.getAccountSet().add(account);
-                customerRepository.save(customer);
-            }
             return accountsRepository.save(account);
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResourceNotFound("Account with a given ID does not exist: " + id);
@@ -147,13 +133,38 @@ public class BankService {
         try {
             Optional<Account> accounts = accountsRepository.findById(id);
             Account account = accounts.get();
-            if (account.getCustomer() != null) {
-                Customer customer = account.getCustomer();
-                customer.getAccountSet().remove(account);
-                customerRepository.save(customer);
+            List<Customer> customers = customerRepository.findAll();
+            for (Customer customer : customers) {
+                if(customer.getAccountSet().contains(account)) {
+                    Set<Account> accountSet = customer.getAccountSet();
+                    accountSet.remove(account);
+                    customer.setAccountSet(accountSet);
+                    customerRepository.save(customer);
+                }
             }
             accountsRepository.delete(account);
             return account;
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new ResourceNotFound("Account with a given ID does not exist: " + id);
+        }
+    }
+
+    public FullAccountInfo getFullAccountInfo(String id) {
+        try {
+            Optional<Account> accounts = accountsRepository.findById(id);
+            Account account = accounts.get();
+            FullAccountInfo fullAccountInfo = new FullAccountInfo();
+            fullAccountInfo.setAccount(account);
+            Set<ViewCustomer> custviews = new HashSet<>();
+            List<Customer> customers = customerRepository.findAll();
+            for (Customer customer : customers) {
+                if(customer.getAccountSet().contains(account)) {
+                    ViewCustomer viewCustomer = new ViewCustomer(customer);
+                    custviews.add(viewCustomer);
+                }
+            }
+            fullAccountInfo.setCustomers(custviews);
+            return fullAccountInfo;
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResourceNotFound("Account with a given ID does not exist: " + id);
         }

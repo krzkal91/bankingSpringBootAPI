@@ -1,8 +1,4 @@
 package wsbSpringBootAPI.wsbSpringBootAPI.entities;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -22,11 +18,6 @@ public class Customer {
     @Field("firstname")
     private String firstname;
 
-    @DBRef(lazy = true)
-    @Field("accountSet")
-    @JsonManagedReference
-    private Set<Account> accountSet;
-
     @Field("lastname")
     private String lastname;
 
@@ -34,7 +25,9 @@ public class Customer {
     @Field("email")
     private String email;
 
-
+    @DBRef
+    @Field("accountSet")
+    private Set<Account> accountSet;
 
 
     public String getId() {
@@ -102,7 +95,6 @@ public class Customer {
         Customer customer = (Customer) o;
         return id.equals(customer.id) &&
                 firstname.equals(customer.firstname) &&
-                Objects.equals(accountSet, customer.accountSet) &&
                 lastname.equals(customer.lastname) &&
                 email.equals(customer.email);
     }

@@ -111,27 +111,20 @@ public class TestBankService {
         Customer customer = new Customer();
         customer.setId("654321");
         Set<Account> accountSet = new HashSet<Account>();
-        account.setCustomer(customer);
         accountSet.add(account);
         customer.setAccountSet(accountSet);
-        account.setCustomer(customer);
 
         Account account1 = new Account();
         date = new Date();
         account1.setBalance(500.0);
         account1.setId("54321");
         account1.setAccountNumber(12345);
-        Customer mockustomer = Mockito.mock(Customer.class);
-        Mockito.when(mockustomer.getId()).thenReturn("mockID");
-        account1.setCustomer(mockustomer);
 
         Mockito.when(accountsRepository.save(account)).thenReturn(account1);
 
         Account a = bankService.createAccount(account);
 
         Assertions.assertEquals(a, account1);
-        Assertions.assertEquals(a.getCustomer(), account1.getCustomer());
-        Assertions.assertEquals(a.getCustomer().getId(), account1.getCustomer().getId());
         Assertions.assertNotEquals(account, a);
 
     }
@@ -153,10 +146,6 @@ public class TestBankService {
                 account.setBalance(100.10);
             }
             account.setAccountNumber(i);
-            Customer customer = new Customer();
-            customer.setId(String.valueOf(i));
-            customer.setEmail(String.format("mariano.italiano@%d.it", date.getTime()));
-            account.setCustomer(customer);
             accounts.add(account);
             Thread.sleep(200);
         }
@@ -168,8 +157,6 @@ public class TestBankService {
         for (Account a : checkList) {
             System.out.println(a);
             Assertions.assertEquals(a, accounts.get(j));
-            Assertions.assertEquals(a.getCustomer().getId(), accounts.get(j).getCustomer().getId());
-            Assertions.assertEquals(a.getCustomer().getEmail(), accounts.get(j).getCustomer().getEmail());
             j++;
         }
     }
@@ -177,16 +164,12 @@ public class TestBankService {
     @Test
     @Order(6)
     void test_transferFunds() {
-        Customer customer = new Customer();
-        customer.setId("mockCUST");
-        customer.setEmail("mock.mocker@mockito.java");
 
         Account account = new Account();
         account.setAccountNumber(123);
         account.setBalance(1111.11);
         Double newBalance = 2111.11;
         account.setId("123");
-        account.setCustomer(customer);
         Optional<Account> op = Optional.of(account);
 
         Account account1 = new Account();
@@ -194,7 +177,6 @@ public class TestBankService {
         account1.setBalance(2222.22);
         Double newBalance1 = 1222.22;
         account1.setId("321");
-        account1.setCustomer(customer);
         Optional<Account> op1= Optional.of(account1);
 
         Mockito.when(accountsRepository.findAccountByAccountNumber(123)).thenReturn(op);
@@ -217,16 +199,11 @@ public class TestBankService {
     @Test
     @Order(7)
     void test_transferFunds2() {
-        Customer customer = new Customer();
-        customer.setId("mockCUST");
-        customer.setEmail("mock.mocker@mockito.java");
-
         Account account = new Account();
         account.setAccountNumber(123);
         account.setBalance(1111.11);
         Double newBalance = 2111.11;
         account.setId("123");
-        account.setCustomer(customer);
         Optional<Account> op = Optional.of(account);
 
         Account account1 = new Account();
@@ -234,7 +211,6 @@ public class TestBankService {
         account1.setBalance(2222.22);
         Double newBalance1 = 1222.22;
         account1.setId("321");
-        account1.setCustomer(customer);
         Optional<Account> op1 = Optional.of(account1);
 
         Mockito.when(accountsRepository.findAccountByAccountNumber(123)).thenReturn(op);

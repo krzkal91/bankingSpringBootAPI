@@ -1,15 +1,12 @@
 package wsbSpringBootAPI.wsbSpringBootAPI.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Objects;
+import java.util.Random;
 
 @Document(collection = "accounts")
 public class Account {
@@ -23,16 +20,13 @@ public class Account {
     @Field("accountNumber")
     private Integer accountNumber;
 
-    @DBRef(lazy = true)
-    @Field("customerSet")
-    @JsonBackReference
-    private Customer customer;
 
     @Field("accountType")
     private String accountType;
 
     @Field("balance")
     private Double balance;
+
 
     public Integer getAccountNumber() {
         return accountNumber;
@@ -67,15 +61,12 @@ public class Account {
     }
 
     public void setAccountNumber(Integer accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+        if(accountNumber != null) {
+            this.accountNumber = accountNumber;
+        } else {
+            Random random = new Random(234);
+            this.accountNumber = random.nextInt();
+        }
     }
 
     public String getId() {
@@ -88,13 +79,8 @@ public class Account {
 
     @Override
     public String toString() {
-        if (customer != null) {
-            String presentation = String.format(":::ACCOUNT | ID: %s | ACCOUNT NUMBER: %d |  CUSTOMER OWNING: %s | ACCOUNT TYPE: %s | BALANCE: %f :::", id, accountNumber, customer.getEmail(), accountType, balance);
+            String presentation = String.format(":::ACCOUNT | ID: %s | ACCOUNT NUMBER: %d | ACCOUNT TYPE: %s | BALANCE: %f :::", id, accountNumber, accountType, balance);
             return presentation;
-        } else {
-            String presentation = String.format(":::ACCOUNT | ID: %s | ACCOUNT NUMBER: %d |  CUSTOMER OWNING: %s | ACCOUNT TYPE: %s | BALANCE: %f :::", id, accountNumber, "null", accountType, balance);
-            return presentation;
-        }
     }
 
     @Override
@@ -104,13 +90,12 @@ public class Account {
         Account account = (Account) o;
         return id.equals(account.id) &&
                 accountNumber.equals(account.accountNumber) &&
-                Objects.equals(customer, account.customer) &&
                 accountType.equals(account.accountType) &&
                 balance.equals(account.balance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, accountNumber, customer, accountType, balance);
+        return Objects.hash(id, accountNumber, accountType, balance);
     }
 }

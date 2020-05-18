@@ -8,42 +8,49 @@ import wsbSpringBootAPI.wsbSpringBootAPI.entities.Account;
 import wsbSpringBootAPI.wsbSpringBootAPI.entities.Customer;
 import wsbSpringBootAPI.wsbSpringBootAPI.service.BankService;
 import wsbSpringBootAPI.wsbSpringBootAPI.service.Transfer;
+import wsbSpringBootAPI.wsbSpringBootAPI.viewObjects.FullAccountInfo;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("")
 public class CustomerController {
 
     @Autowired
     private BankService bankService;
 
-    @PostMapping
+    @GetMapping("")
+    public Welcome welcome() {
+        Welcome welcome = new Welcome();
+        return welcome;
+    }
+
+    @PostMapping("/customers")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Customer add(@RequestBody Customer customer) {
         return bankService.createCustomer(customer);
     }
 
-    @GetMapping
+    @GetMapping("/customers")
     public List<Customer> getAllCustomers() {
         return bankService.getAllCustomers();
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/customers/{id}")
     public Customer getOneCustomer(@PathVariable String id) {
         Customer customer = bankService.getCustomer(id);
         return customer;
     }
 
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/customers/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public Customer updateCustomer(@PathVariable String id, @RequestBody Customer customerToUpdate) {
         Customer customer = bankService.updateCustomer(id, customerToUpdate);
         return customer;
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/customers/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public void deleteCustomer(@PathVariable String id) {
         Customer customer = bankService.deleteCustomer(id);
@@ -55,18 +62,18 @@ public class CustomerController {
         return customer;
     }
 
-    @GetMapping("/accounts")
+    @GetMapping("/customers/accounts")
     public List<Account> getAllAccounts() {
         return bankService.getAllAccounts();
     }
 
-    @GetMapping("/accounts/{id}")
+    @GetMapping("/customers/accounts/{id}")
     public Account getOneAccount(@PathVariable String id) {
         Account account = bankService.getAccount(id);
         return account;
     }
 
-    @PutMapping("/accounts/{id}")
+    @PutMapping("/customers/accounts/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public Account updateAccount(@PathVariable String id, @RequestBody Account accountToUpdate) {
         Account account = bankService.updateAccount(id, accountToUpdate);
@@ -74,22 +81,26 @@ public class CustomerController {
 
     }
 
-    @PostMapping("/accounts")
+    @PostMapping("/customers/accounts")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Account add(@RequestBody Account account) {
         return bankService.createAccount(account);
     }
 
-    @DeleteMapping("/accounts/{id}")
+    @DeleteMapping("/customers/accounts/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public void deleteAccount(@PathVariable String id) {
-        Account account = bankService.deleteAccount(id);
+        bankService.deleteAccount(id);
     }
 
-    @PutMapping("/accounts/transferFund")
+    @PutMapping("/customers/accounts/transferfunds")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public void transferFunds(@RequestBody Transfer transfer) {
             bankService.transferFunds(transfer);
     }
+
+    @GetMapping("/customers/accounts/{id}/fullinfo")
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public FullAccountInfo getFullAccountInfo(@PathVariable String id) { FullAccountInfo fullAccountInfo = bankService.getFullAccountInfo(id); return fullAccountInfo;}
 
 }

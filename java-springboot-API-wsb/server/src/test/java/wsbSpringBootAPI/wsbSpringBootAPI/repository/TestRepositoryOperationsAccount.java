@@ -51,7 +51,6 @@ public class TestRepositoryOperationsAccount {
         Set<Account> accountSet = new HashSet<>();
         c.setAccountSet(accountSet);
         c = customerRepository.save(c);
-        account.setCustomer(c);
         a = accountsRepository.save(account);
         c = customerRepository.findByEmail(c.getEmail()).get();
         accountSet.add(a);
