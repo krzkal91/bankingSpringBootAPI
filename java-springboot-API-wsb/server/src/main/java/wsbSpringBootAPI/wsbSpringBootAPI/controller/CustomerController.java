@@ -93,7 +93,7 @@ public class CustomerController {
         bankService.deleteAccount(id);
     }
 
-    @PutMapping("/customers/accounts/transferfunds")
+    @PutMapping("/customers/accounts/transferFunds")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public void transferFunds(@RequestBody Transfer transfer) {
             bankService.transferFunds(transfer);

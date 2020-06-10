@@ -35,12 +35,14 @@ public class TestBankService {
     void test_createCustomer() {
         Customer customer = new Customer();
         date = new Date();
+        customer.setId("mamamamaam");
         customer.setEmail(String.format("mariano.italiano@%d.it", date.getTime()));
         customer.setFirstname("Mariano");
         customer.setLastname("Italiano");
         customer.setAccountSet(new HashSet<Account>());
 
         Customer mockCustomer = new Customer();
+        mockCustomer.setId("tatatatat");
         mockCustomer.setEmail(String.format("natalie.malarie@%d.it", date.getTime()));
         mockCustomer.setFirstname("Natalie");
         mockCustomer.setLastname("Malarie");

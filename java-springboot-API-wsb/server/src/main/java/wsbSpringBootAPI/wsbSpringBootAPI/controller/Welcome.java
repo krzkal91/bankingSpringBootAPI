@@ -60,7 +60,7 @@ public class Welcome {
                     "[8]: POST /customers/accounts - creating a new account with an auto assigned ID (and accountNumber as a secondary)\n" +
                     "[9]: PUT /customers/accounts/{id} - updating the chosen account\n" +
                     "[10]: DELETE /customers/accounts/{id} - deleting account\n" +
-                    "[11]: PUT /customers/accounts/transferFunds - transferring funds from one account to another IF such exists, if sufficient funds, etc.\n" +
+                    "[11]: PUT /customers/accounts/transferfunds - transferring funds from one account to another IF such exists, if sufficient funds, etc.\n" +
                     "[12]: GET /customers/searchByEmail - searching a customer by email\n" +
                     "[13]: GET /customers/accounts/{id}/fullinfo - displaying FULL info about the given account INCLUDING the information about the customers that own the account\n";
         }

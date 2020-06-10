@@ -42,10 +42,12 @@ public class BankAPIApplicationIntegrationTests {
     @Order(1)
     public void test_createCustomer() {
         Customer customer = new Customer();
+        String id = "12345";
         date = new Date();
         customer.setEmail("test.test@"+ date.getTime() +".pl");
         customer.setFirstname("Test");
         customer.setLastname("Test");
+        customer.setId(id);
         Set<Account> accountSet = new HashSet<>();
         customer.setAccountSet(accountSet);
 
@@ -62,6 +64,7 @@ public class BankAPIApplicationIntegrationTests {
     @Order(2)
     public void test_createAccount() {
         Account account = new Account();
+        account.setId("67890");
         account.setBalance(2234.04);
         account.setAccountType("CURRENT");
         account.setAccountNumber(23456);
@@ -131,7 +134,7 @@ public class BankAPIApplicationIntegrationTests {
         transfer.setToAccount(23456);
         transfer.setAmount(200.00);
 
-        String path = "/customers/accounts/transferfunds";
+        String path = "/customers/accounts/transferFunds";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Content-Type", "application/json");
 

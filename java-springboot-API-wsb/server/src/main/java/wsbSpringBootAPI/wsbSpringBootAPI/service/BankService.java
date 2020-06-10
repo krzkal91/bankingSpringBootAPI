@@ -3,6 +3,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wsbSpringBootAPI.wsbSpringBootAPI.entities.Account;
 import wsbSpringBootAPI.wsbSpringBootAPI.entities.Customer;
+import wsbSpringBootAPI.wsbSpringBootAPI.exception.CreationException;
 import wsbSpringBootAPI.wsbSpringBootAPI.exception.ResourceNotFound;
 import wsbSpringBootAPI.wsbSpringBootAPI.exception.TransferException;
 import wsbSpringBootAPI.wsbSpringBootAPI.repository.AccountsRepository;
@@ -20,16 +21,23 @@ public class BankService {
     private AccountsRepository accountsRepository;
 
     public Customer createCustomer(Customer customer) {
-        if (customer.getAccountSet() != null || customer.getAccountSet().size() > 0) {
-            Set<Account> accountset = new HashSet<Account>();
-            for (Account a : customer.getAccountSet()) {
-                Account accountSaved = accountsRepository.save(a);
-                accountset.add(accountSaved);
-            }
-            customer.setAccountSet(accountset);
+        if(customer.getId() == null) {
+            throw new CreationException("Cannot create customer with a NULL id");
         }
-        Customer saved = customerRepository.save(customer);
-        return saved;
+        if (!(customerRepository.existsById(customer.getId()) && customerRepository.existsByEmail(customer.getEmail()))) {
+            if (customer.getAccountSet() != null || customer.getAccountSet().size() > 0) {
+                Set<Account> accountset = new HashSet<Account>();
+                for (Account a : customer.getAccountSet()) {
+                    Account accountSaved = createAccount(a);
+                    accountset.add(accountSaved);
+                }
+                customer.setAccountSet(accountset);
+            }
+            Customer saved = customerRepository.save(customer);
+            return saved;
+        } else {
+            throw new CreationException("Cannot create Customer because of duplicate ID or email: " + customer.getId() + ", " + customer.getEmail());
+        }
     }
 
     public List<Customer> getAllCustomers() {
@@ -112,8 +120,15 @@ public class BankService {
     }
 
     public Account createAccount(Account account) {
-        Account accountSaved = accountsRepository.save(account);
-        return accountSaved;
+        if(account.getId() == null) {
+            throw new CreationException("Cannot create account with a NULL id");
+        }
+        if(!(accountsRepository.existsById(account.getId()) && accountsRepository.existsByAccountNumber(account.getAccountNumber()))) {
+            Account accountSaved = accountsRepository.save(account);
+            return accountSaved;
+        } else {
+            throw new CreationException("Cannot create Account because of either duplicate ID of accountNumber");
+        }
     }
 
     public Account updateAccount(String id, Account accountToUpdate) {
@@ -171,6 +186,9 @@ public class BankService {
     }
 
     public void transferFunds(Transfer transfer) {
+        if(transfer.getAmount() <= 0) {
+            throw new TransferException("Cannot perform transfer for an amount lower than 0.00");
+        }
         try {
             if (!transfer.getFromAccount().equals(transfer.getToAccount())) {
                 Optional<Account> accounts = accountsRepository.findAccountByAccountNumber(transfer.getFromAccount());
