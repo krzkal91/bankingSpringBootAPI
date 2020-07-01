@@ -41,6 +41,8 @@ It reponds to following operations:<br><br>
 ### OBJECT EXAMPLES
 
 <p>
+	CUSTOMER
+	
   {
 	"id": "ksdkjdh2837273678",
         "firstname": "Mariano",
@@ -49,7 +51,8 @@ It reponds to following operations:<br><br>
 	"accountSet": []
 }
 
-
+	ACCOUNT
+	
 {
 	"id": "ksdkjdh2837273678",
         "accountNumber": 88100213,
@@ -57,6 +60,8 @@ It reponds to following operations:<br><br>
         "balance": 1500100
 }
 
+	TRANSFERFUNDS
+	
 {
 	"fromAccount": 88100213,
 	"toAccount": 10098764,
