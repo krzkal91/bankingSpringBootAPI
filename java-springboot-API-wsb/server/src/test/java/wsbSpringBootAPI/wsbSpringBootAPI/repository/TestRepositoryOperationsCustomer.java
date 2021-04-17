@@ -85,12 +85,14 @@ public class TestRepositoryOperationsCustomer {
         customerRepository.delete(tmp);
         assertFalse(customerRepository.existsById(tmp.getId()));
     }
-
-    @Test
+/**
+ * @Test
     @Order(6)
     public void cleanup() {
         customerRepository.deleteAll();
     }
+ */
+    
 
 
 

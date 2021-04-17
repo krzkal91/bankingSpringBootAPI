@@ -102,12 +102,15 @@ public class TestRepositoryOperationsAccount {
         assertFalse(accountsRepository.existsByAccountNumber(a.getAccountNumber()));
     }
 
-    @Test
+/**
+ * @Test
     @Order(6)
     public void cleanup() {
         customerRepository.deleteAll();
         accountsRepository.deleteAll();
     }
+ */
+    
 
 
 }
