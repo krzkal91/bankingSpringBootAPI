@@ -37,11 +37,11 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-- stage: AKS-ensure
+- stage: AKS_ensure
   displayName: Ensure aks is deployed
   jobs:
-    - job: ARM-AKS
-      displayName: ARM-AKS
+    - job: ARMAKS
+      displayName: ARMAKS
       steps:
         - task: AzureFileCopy@4
           inputs:
