@@ -1,0 +1,67 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "clustername": {
+            "type": "string",
+            "defaultValue": "krz-aks-test"
+        },
+        "location": {
+            "defaultValue": "[resourceGroup().location]",
+            "type": "string"
+        },
+        "count": {
+            "type": "int",
+            "defaultValue": 2
+        },
+        "vmsize": {
+            "type": "string",
+            "defaultValue": "Standard_A2_v2"
+        }
+    },
+    "resources": [
+        {
+            "name": "[parameters('clustername')]",
+            "type": "Microsoft.ContainerService/managedClusters",
+            "apiVersion": "2020-02-01",
+            "location": "[parameters('location')]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "enableRBAC": true,
+                "kubernetesVersion": "1.15.7",
+                "dnsPrefix": "krz-aks-test",
+                "agentPoolProfiles": [
+                    {
+                        "name": "agentpool",
+                        "count": "[parameters('count')]",
+                        "vmSize": "[parameters('vmsize')]",
+                        "osType": "Linux",
+                        "storageProfile": "ManagedDisks"
+                    }
+                ],
+                "linuxProfile": {
+                    "adminUsername": "adminUserName",
+                    "ssh": {
+                        "publicKeys": [
+                            {
+                                "keyData": "keyData"
+                            }
+                        ]
+                    }
+                },
+                "servicePrincipalProfile": {
+                    "clientId": "servicePrincipalAppId",
+                    "secret": "servicePrincipalAppPassword"
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "FQDN": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.ContainerService/managedClusters/', parameters('clustername'))).fqdn]"
+        }
+    }
+}
