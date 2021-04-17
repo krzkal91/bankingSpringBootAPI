@@ -37,3 +37,27 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+- stage: AKS-ensure
+  displayName: Ensure aks is deployed
+  jobs:
+    - job: ARM-AKS
+      displayName: ARM-AKS
+      steps:
+        - task: AzureFileCopy@4
+          inputs:
+            SourcePath: 'aks.json'
+            azureSubscription: 'Azure-Abonnement 1 (9d3e5d02-8699-4ec2-b770-5f9d1720d2f9)'
+            Destination: 'AzureBlob'
+            storage: 'terradat'
+            ContainerName: 'aks'
+        - task: AzureResourceManagerTemplateDeployment@3
+          inputs:
+            deploymentScope: 'Resource Group'
+            azureResourceManagerConnection: 'Azure-Abonnement 1 (9d3e5d02-8699-4ec2-b770-5f9d1720d2f9)'
+            subscriptionId: '9d3e5d02-8699-4ec2-b770-5f9d1720d2f9'
+            action: 'Create Or Update Resource Group'
+            resourceGroupName: 'terra-conainers-01'
+            location: 'North Europe'
+            templateLocation: URL of the file
+            deploymentMode: 'Incremental'
+            csmFileLink: '$(AzureFileCopy.StorageContainersUri)aks/aks.json$(AzureFileCopy.StorageContainerSasToken)'
