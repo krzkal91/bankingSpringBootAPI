@@ -63,4 +63,4 @@ stages:
             location: 'North Europe'
             templateLocation: URL of the file
             deploymentMode: 'Incremental'
-            csmFileLink: '$(AzureFileCopy.StorageContainerUri)aks/aks.json'
+            csmFileLink: 'https://github.com/krzkal91/bankingSpringBootAPI/blob/master/aks.json'
