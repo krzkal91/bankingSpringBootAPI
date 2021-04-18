@@ -63,5 +63,5 @@ stages:
             location: 'North Europe'
             templateLocation: 'URL of the file'
             deploymentMode: 'Incremental'
-            csmFileLink: '$(AzureFileCopy.StorageContainerUri)aks/aks.json'
-            csmParametersFileLink: '$(AzureFileCopy.StorageContainerUri)aks/aks.parameters.json'
+            csmFileLink: '$(AzureFileCopy.StorageContainerUri)aks.json$(AzureFileCopy.StorageContainerSasToken)'
+            csmParametersFileLink: '$(AzureFileCopy.StorageContainerUri)aks.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
