@@ -48,7 +48,7 @@ stages:
       steps:
         - task: AzureFileCopy@4
           inputs:
-            SourcePath: 'aks.json'
+            SourcePath: '*.json'
             azureSubscription: 'Azure-Abonnement 1 (9d3e5d02-8699-4ec2-b770-5f9d1720d2f9)'
             Destination: 'AzureBlob'
             storage: 'terradat'
@@ -63,4 +63,5 @@ stages:
             location: 'North Europe'
             templateLocation: URL of the file
             deploymentMode: 'Incremental'
-            csmFileLink: 'https://github.com/krzkal91/bankingSpringBootAPI/blob/master/aks.json'
+            csmFileLink: '$(AzureFileCopy.StorageContainerUri)aks/aks.json$(AzureFileCopy.StorageContainerSasToken)'
+            csmParametersFileLink: '$(AzureFileCopy.StorageContainerUri)aks/aks.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
