@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceName": {
+            "value": "krz-aks-01"
+        },
+        "location": {
+            "value": "northeurope"
+        },
+        "dnsPrefix": {
+            "value": "krz-aks-01-dns"
+        },
+        "kubernetesVersion": {
+            "value": "1.18.14"
+        },
+        "networkPlugin": {
+            "value": "kubenet"
+        },
+        "enableRBAC": {
+            "value": true
+        },
+        "enablePrivateCluster": {
+            "value": false
+        },
+        "enableHttpApplicationRouting": {
+            "value": false
+        },
+        "enableAzurePolicy": {
+            "value": false
+        }
+    }
+}
