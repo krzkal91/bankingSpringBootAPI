@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-mongo-aks
+spec:
+  selector:
+    matchLabels:
+      app: bankapi
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: bankapi
+    spec:
+      containers:
+        - name: bankapi
+          image: terraformdotnet01.azurecr.io/krzkalbankingspringbootapi:#{}#
+          ports:
+            - containerPort: 80
+---
+
+kind: apiVersion: v1
+kind: Service
+metadata:
+  name: bankapi-LB
+spec:
+  selector:
+    app: bankapi
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer 
