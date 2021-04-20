@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: bankapi
-          image: terraformdotnet01.azurecr.io/krzkalbankingspringbootapi:#{}#
+          image: terraformdotnet01.azurecr.io/krzkalbankingspringbootapi:#{Build.BuildId}#
           ports:
             - containerPort: 80
 ---
